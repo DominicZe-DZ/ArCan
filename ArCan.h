@@ -43,7 +43,8 @@ class tArCan
 	}tCAN;
 		  
 	tArCan(void);
-	boolean init(uint16_t speed);
+	boolean begin(void);
+	boolean begin(uint16_t speed);
 	boolean check_message(void);
 	boolean check_free_buffer(void);
 	byte get_message(tCAN *msje);

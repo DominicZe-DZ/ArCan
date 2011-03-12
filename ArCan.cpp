@@ -106,12 +106,18 @@ byte tArCan::read_status(byte type)
 	
 	return data;
 }
+
+//***************************************************************************
+//Inicializa el mcp2515 con una velocidad por defecto, 125Kbps
+boolean tArCan::begin(void)
+{
+	return begin(125);
+}
+
 //***************************************************************************
 //Inicializa el mcp2515
-boolean tArCan::init(uint16_t speed)
+boolean tArCan::begin(uint16_t speed)
 {
-
-	
 	// Hacemos un reset por soft al mcp2515
 	// Despues del reset entra en modo de configuracion
 	digitalWrite(ArCan_CS,LOW);
