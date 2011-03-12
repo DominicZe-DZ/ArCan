@@ -49,7 +49,6 @@ class tArCan
 	byte get_message(tCAN *msje);
     byte get_message_to_buffer_rx(void);
 	byte send_message(tCAN *msje);
-	void print_message(tCAN *msje);
 	void mode_loopback(void);
 	void mode_normal(void);
 

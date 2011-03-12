@@ -336,33 +336,16 @@ byte tArCan::send_message(tCAN *msje)
 	
 	return address;
 }
+
 //***************************************************************************
-//Imprime por el puerto serie el mensaje CAN
-void tArCan::print_message(tCAN *msje)
-{
-	Serial.print("id: ");
-	Serial.println(msje->id,HEX);
-	Serial.print("Longitud: ");
-	Serial.println(msje->header.length,BIN);
-	Serial.print("rtr: ");
-	Serial.println(msje->header.rtr,BIN);
-
-
-	if (!msje->header.rtr) {
-		Serial.print("Datos: ");
-		
-		for (byte i = 0; i < msje->header.length; i++) {
-			Serial.print(msje->data[i],HEX);
-		}
-		Serial.println();
-	}
-}
-
+//Establece el modo loopback
 void tArCan::mode_loopback(void)
 {
 	bit_modify(CANCTRL, (1<<REQOP2)|(1<<REQOP1)|(1<<REQOP0), (1<<REQOP1));
 }
 
+//***************************************************************************
+//Establece el modo normal
 void tArCan::mode_normal(void)
 {
 	bit_modify(CANCTRL, (1<<REQOP2)|(1<<REQOP1)|(1<<REQOP0), 0);
