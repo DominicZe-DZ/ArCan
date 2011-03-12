@@ -59,9 +59,9 @@ class tArCan
     byte buffer_rx_count;
     boolean check_message_flag;
     byte spi_putc( byte data );
-	void write_register( byte direction, byte data );
-	byte read_register(byte direction);
-	void bit_modify(byte direction, byte mask, byte data);
+	void write_register( byte address, byte data );
+	byte read_register(byte address);
+	void bit_modify(byte address, byte mask, byte data);
 	byte read_status(byte type);
 };
 

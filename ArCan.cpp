@@ -27,9 +27,6 @@
 #include "ArCan.h"
 #include "ArCan_def.h"
 
-// include description files for other libraries used (if any)
-#include "HardwareSerial.h"
-
 // Constructor /////////////////////////////////////////////////////////////////
 // Function that handles the creation and setup of instances
 tArCan::tArCan(void)
@@ -53,26 +50,26 @@ byte tArCan::spi_putc( byte data )
 
 //***************************************************************************
 //Escribir un registro del mcp2515
-void tArCan::write_register( byte direction, byte data )
+void tArCan::write_register( byte address, byte data )
 {
 	digitalWrite(ArCan_CS,LOW);
 
 	spi_putc(SPI_WRITE);
-	spi_putc(direction);
+	spi_putc(address);
 	spi_putc(data);
 	
 	digitalWrite(ArCan_CS,HIGH);
 }
 
 //Leer un registros del mcp2515
-byte tArCan::read_register(byte direction)
+byte tArCan::read_register(byte address)
 {
 	byte data;
 	
 	digitalWrite(ArCan_CS,LOW);
 	
 	spi_putc(SPI_READ);
-	spi_putc(direction);
+	spi_putc(address);
 	
 	data = spi_putc(0xff);	 //Envia un dummy
 	
@@ -83,12 +80,12 @@ byte tArCan::read_register(byte direction)
 
 //***************************************************************************
 //Modificar un bit del mcp2515
-void tArCan::bit_modify(byte direction, byte mask, byte data)
+void tArCan::bit_modify(byte address, byte mask, byte data)
 {
 	digitalWrite(ArCan_CS,LOW);
 	
 	spi_putc(SPI_BIT_MODIFY);
-	spi_putc(direction);
+	spi_putc(address);
 	spi_putc(mask);
 	spi_putc(data);
 	
