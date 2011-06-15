@@ -115,7 +115,7 @@ boolean tArCan::begin(void)
 }
 
 //***************************************************************************
-//Inicializa el mcp2515
+//Inicializa el mcp2515 (Reloj 16MHz
 boolean tArCan::begin(uint16_t speed)
 {
 	// Hacemos un reset por soft al mcp2515
@@ -137,15 +137,20 @@ boolean tArCan::begin(uint16_t speed)
     switch(speed){
         case 250:   spi_putc((1<<PHSEG21));	                    // Escribe en el CNF3
                     spi_putc((1<<BTLMODE)|(1<<PHSEG11));        // Escribe en el CNF2
-                    spi_putc((1<<BRP0));                        // Escribe en el CNF1
+                    spi_putc((1<<BRP1)|(1<<BRP0));              // Escribe en el CNF1
                     break;
-        case 500:   spi_putc((1<<PHSEG21));	                    // Escribe en el CNF3
-                    spi_putc((1<<BTLMODE)|(1<<PHSEG11));        // Escribe en el CNF2
+        case 500:   spi_putc((1<<PHSEG22)|(1<<PHSEG20));	    // Escribe en el CNF3
+                    spi_putc((1<<BTLMODE)|(1<<PHSEG12)|
+                    		 (1<<PHSEG11)|(1<<PHSEG10));		// Escribe en el CNF2
                     spi_putc(0x00);                             // Escribe en el CNF1
                     break;
+        case 1000:  spi_putc((1<<PHSEG21));					    // Escribe en el CNF3
+					spi_putc((1<<BTLMODE)|(1<<PHSEG11));		// Escribe en el CNF2
+					spi_putc(0x00);                             // Escribe en el CNF1
+					break;
         default:    spi_putc((1<<PHSEG21));	                    // Escribe en el CNF3
                     spi_putc((1<<BTLMODE)|(1<<PHSEG11));        // Escribe en el CNF2
-                    spi_putc((1<<BRP1)|(1<<BRP0));              // Escribe en el CNF1
+                    spi_putc((1<<BRP2)|(1<<BRP1)|(1<<BRP0));    // Escribe en el CNF1
                     break;
     }
 	
@@ -154,7 +159,8 @@ boolean tArCan::begin(uint16_t speed)
 	digitalWrite(ArCan_CS,HIGH);
 	
 	// Testeamos que la escritura se ha producido correctamente para verificar que el mcp2515 es accesible
-	if (read_register(CNF1) != ((1<<BRP2)|(1<<BRP1)|(1<<BRP0))) {
+	// Podemos probar cualquier otro registro, en este caso verifico que se ha escrito bien el registro de CANINTE
+	if (read_register(CANINTE) != ((1<<RX1IE)|(1<<RX0IE))) {
 		return false;
 	}
 	
