@@ -115,7 +115,7 @@ boolean tArCan::begin(void)
 }
 
 //***************************************************************************
-//Inicializa el mcp2515 (Reloj 16MHz
+//Inicializa el mcp2515 (Reloj 16MHz)
 boolean tArCan::begin(uint16_t speed)
 {
 	// Hacemos un reset por soft al mcp2515
@@ -164,7 +164,7 @@ boolean tArCan::begin(uint16_t speed)
 		return false;
 	}
 	
-	// Para que D2 y D3 se apagen cuando los buffers se llenen
+	// Para que D2 y D3 se activen cuando los buffers se llenen
 	write_register(BFPCTRL, (1<<B0BFM)|(1<<B1BFM)|(1<<B0BFE)|(1<<B1BFE));
 	
 	// Configuramos TXnRTS como entradas digitales
