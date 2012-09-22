@@ -21,7 +21,13 @@
  ****************************************************************************/
  
 // include core Wiring API
+//#include "WProgram.h"
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#else
 #include "WProgram.h"
+#endif
+
 
 // include this library's description file
 #include "ArCan.h"
@@ -135,22 +141,21 @@ boolean tArCan::begin(uint16_t speed)
                      // Si no se intruduce un valor valido se configura en 125Kbps
 	
     switch(speed){
-        case 250:   spi_putc((1<<PHSEG21));	                    // Escribe en el CNF3
-                    spi_putc((1<<BTLMODE)|(1<<PHSEG11));        // Escribe en el CNF2
-                    spi_putc((1<<BRP1)|(1<<BRP0));              // Escribe en el CNF1
+        case 250:   spi_putc((1<<PHSEG22)|(1<<PHSEG20));                            // Escribe en el CNF3 = 0x05
+                    spi_putc((1<<BTLMODE)|(1<<PHSEG12)|(1<<PHSEG11)|(1<<PHSEG10));  // Escribe en el CNF2 = 0xB8
+                    spi_putc((1<<BRP0));                                            // Escribe en el CNF1 = 0x01
                     break;
-        case 500:   spi_putc((1<<PHSEG22)|(1<<PHSEG20));	    // Escribe en el CNF3
-                    spi_putc((1<<BTLMODE)|(1<<PHSEG12)|
-                    		 (1<<PHSEG11)|(1<<PHSEG10));		// Escribe en el CNF2
-                    spi_putc(0x00);                             // Escribe en el CNF1
+        case 500:   spi_putc((1<<PHSEG22)|(1<<PHSEG20));                            // Escribe en el CNF3 = 0x05
+                    spi_putc((1<<BTLMODE)|(1<<PHSEG12)|(1<<PHSEG11)|(1<<PHSEG10));  // Escribe en el CNF2 = 0xB8
+                    spi_putc(0x00);                                                 // Escribe en el CNF1 = 0x00
                     break;
-        case 1000:  spi_putc((1<<PHSEG21));					    // Escribe en el CNF3
-					spi_putc((1<<BTLMODE)|(1<<PHSEG11));		// Escribe en el CNF2
-					spi_putc(0x00);                             // Escribe en el CNF1
-					break;
-        default:    spi_putc((1<<PHSEG21));	                    // Escribe en el CNF3
-                    spi_putc((1<<BTLMODE)|(1<<PHSEG11));        // Escribe en el CNF2
-                    spi_putc((1<<BRP2)|(1<<BRP1)|(1<<BRP0));    // Escribe en el CNF1
+        case 1000:  spi_putc((1<<PHSEG21));                                         // Escribe en el CNF3
+                    spi_putc((1<<BTLMODE)|(1<<PHSEG11));                            // Escribe en el CNF2
+                    spi_putc(0x00);                                                 // Escribe en el CNF1
+                    break;
+        default:    spi_putc((1<<PHSEG22)|(1<<PHSEG20));                            // Escribe en el CNF3 = 0x05
+                    spi_putc((1<<BTLMODE)|(1<<PHSEG12)|(1<<PHSEG11)|(1<<PHSEG10));  // Escribe en el CNF2 = 0xB8
+                    spi_putc((1<<BRP1)|(1<<BRP0));                                  // Escribe en el CNF1 = 0x03
                     break;
     }
 	
@@ -186,7 +191,7 @@ boolean tArCan::begin(uint16_t speed)
 // Chequea si existe algun mensaje nuevo en espera devuelve 1 si existe o 0 si no hay
 boolean tArCan::check_message(void)
 {
-	return (buffer_rx_count != 0);
+	return (buffer_rx_count > 0);
 }
 
 //***************************************************************************
