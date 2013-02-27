@@ -23,7 +23,13 @@
 #define ArCan_h
 
 
-#include "WConstants.h"         // include types & constants of Wiring core API
+//#include "WConstants.h"         // include types & constants of Wiring core API
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#else
+#include "WProgram.h"
+#include "WConstants.h"
+#endif
 #include "ArCan_def.h"
 
 // Descripcion del interfaz de la libreria CanBus
@@ -50,6 +56,7 @@ class tArCan
 	byte get_message(tCAN *msje);
     byte get_message_to_buffer_rx(void);
 	byte send_message(tCAN *msje);
+    void print_message(tCAN *msje);
 	void mode_loopback(void);
 	void mode_normal(void);
 
@@ -63,6 +70,7 @@ class tArCan
 	byte read_register(byte address);
 	void bit_modify(byte address, byte mask, byte data);
 	byte read_status(byte type);
+    void can_Set_RXB0Filters(uint16_t Mask0,uint16_t filter );
 };
 
 #endif

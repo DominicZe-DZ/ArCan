@@ -234,7 +234,8 @@ byte tArCan::get_message_to_buffer_rx(void)
 	
 	// leemos la id 
 	buffer_rx[buffer_rx_count].id  = (char) spi_putc(0xff) << 3;       //leemos la parte alta
-	buffer_rx[buffer_rx_count].id |=            spi_putc(0xff) >> 5;   //leemos la parte baja
+	buffer_rx[buffer_rx_count].id |= spi_putc(0xff) >> 5;              //leemos la parte baja
+	buffer_rx[buffer_rx_count].id &= 0X07FF;
 	
 	spi_putc(0xff);		//devolvera la parte alta id extendida
 	spi_putc(0xff);		//devolvera la parte baja de la id extendida
@@ -352,6 +353,47 @@ byte tArCan::send_message(tCAN *msje)
 	digitalWrite(ArCan_CS,HIGH);
 	
 	return address;
+}
+//***************************************************************************
+//Configura las Mascaras y Filtros
+void tArCan::can_Set_RXB0Filters(uint16_t Mask0, uint16_t filter )
+    {
+    // Modo de Configuracion
+    write_register(CANCTRL,(1<<REQOP2));
+    
+    // Configuracion de las mascaras de los buffers
+    write_register( RXM0SIDH, Mask0 >> 3);
+    write_register( RXM0SIDL, Mask0 << 5);
+        
+    write_register( RXM1SIDH, Mask0 >> 3);
+    write_register( RXM1SIDL, Mask0 << 5);
+    
+    // Configuracion del filtro 0  
+    
+    write_register( RXF0SIDH, filter >> 3);
+    write_register( RXF0SIDL, filter << 5);
+    
+}
+//***************************************************************************
+//Imprime por el puerto serie el mensaje CAN
+void tArCan::print_message(tCAN *msje)
+{
+	Serial.print("id: ");
+	Serial.println(msje->id,HEX);
+	Serial.print("Longitud: ");
+	Serial.println(msje->header.length,DEC);
+	Serial.print("rtr: ");
+	Serial.println(msje->header.rtr,BIN);
+    
+    
+	if (!msje->header.rtr) {
+		Serial.print("Datos: ");
+		
+		for (byte i = 0; i < msje->header.length; i++) {
+			Serial.print(msje->data[i],DEC);
+		}
+		Serial.println();
+	}
 }
 
 //***************************************************************************
