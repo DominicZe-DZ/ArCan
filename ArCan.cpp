@@ -11,7 +11,7 @@
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * but WITHOUT ANY WARRANTY; without even the implied warrantArCan_CS_LOW:y of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
@@ -28,6 +28,12 @@
 #include "WProgram.h"
 #endif
 
+/* DigitalWrite es excesivamente lento.
+   Depender‡ del pin CS que usemos, en 
+   en l’neas generales, ser‡ el 
+   PortB.2 = Pin 10 de arduino */
+#define ArCan_CS_LOW: PORTB &= 0xFB;
+#define ArCan_CS_HIGH: PORTB |= 0x04;
 
 // include this library's description file
 #include "ArCan.h"
@@ -58,13 +64,13 @@ byte tArCan::spi_putc( byte data )
 //Escribir un registro del mcp2515
 void tArCan::write_register( byte address, byte data )
 {
-	digitalWrite(ArCan_CS,LOW);
+	ArCan_CS_LOW:
 
 	spi_putc(SPI_WRITE);
 	spi_putc(address);
 	spi_putc(data);
 	
-	digitalWrite(ArCan_CS,HIGH);
+	ArCan_CS_HIGH:
 }
 
 //Leer un registros del mcp2515
@@ -72,14 +78,14 @@ byte tArCan::read_register(byte address)
 {
 	byte data;
 	
-	digitalWrite(ArCan_CS,LOW);
+	ArCan_CS_LOW:
 	
 	spi_putc(SPI_READ);
 	spi_putc(address);
 	
 	data = spi_putc(0xff);	 //Envia un dummy
 	
-	digitalWrite(ArCan_CS,HIGH);
+	ArCan_CS_HIGH:
 	
 	return data;
 }
@@ -88,14 +94,14 @@ byte tArCan::read_register(byte address)
 //Modificar un bit del mcp2515
 void tArCan::bit_modify(byte address, byte mask, byte data)
 {
-	digitalWrite(ArCan_CS,LOW);
+	ArCan_CS_LOW:
 	
 	spi_putc(SPI_BIT_MODIFY);
 	spi_putc(address);
 	spi_putc(mask);
 	spi_putc(data);
 	
-	digitalWrite(ArCan_CS,HIGH);
+	ArCan_CS_HIGH:
 }
 //***************************************************************************
 //Consultar el estado del mcp2515 (2 tipos de consulta SPI_RX_STATUS o SPI_READ_STATUS
@@ -103,12 +109,12 @@ byte tArCan::read_status(byte type)
 {
 	byte data;
 	
-	digitalWrite(ArCan_CS,LOW);
+	ArCan_CS_LOW:
 	
 	spi_putc(type);
 	data = spi_putc(0xff);  //Envia un dummy
 	
-	digitalWrite(ArCan_CS,HIGH);
+	ArCan_CS_HIGH:
 	
 	return data;
 }
@@ -144,15 +150,15 @@ boolean tArCan::begin(uint16_t speed)
 	
 	// Hacemos un reset por soft al mcp2515
 	// Despues del reset entra en modo de configuracion
-	digitalWrite(ArCan_CS,LOW);
+	ArCan_CS_LOW:
 	spi_putc(SPI_RESET);
-	digitalWrite(ArCan_CS,HIGH);
+	ArCan_CS_HIGH:
 
 	// Esperamos un poco para que se estabilize el mcp2515 despues del reset
 	delay(20);
 	
 	// load CNF1..3 Register
-	digitalWrite(ArCan_CS,LOW);
+	ArCan_CS_LOW:
 	spi_putc(SPI_WRITE);
 	spi_putc(CNF3);  // Usaremos una escritura secuencial empezando en la 
                      // dirección 0x28h(CNF3) 0x29h(CNF2) 0x2A(CNF1)
@@ -179,7 +185,7 @@ boolean tArCan::begin(uint16_t speed)
 	
 	// Activamos la interrupcion
 	spi_putc((1<<RX1IE)|(1<<RX0IE));
-	digitalWrite(ArCan_CS,HIGH);
+	ArCan_CS_HIGH:
 	
 	// Testeamos que la escritura se ha producido correctamente para verificar que el mcp2515 es accesible
 	// Podemos probar cualquier otro registro, en este caso verifico que se ha escrito bien el registro de CANINTE
@@ -247,7 +253,7 @@ byte tArCan::get_message_to_buffer_rx(void)
 		return 0;
 	}
 
-	digitalWrite(ArCan_CS,LOW);
+	ArCan_CS_LOW:
 	spi_putc(addr);
 	
 	// leemos la id 
@@ -268,7 +274,7 @@ byte tArCan::get_message_to_buffer_rx(void)
 	for (byte i=0;i<length;i++) {
 		buffer_rx[buffer_rx_count].data[i] = spi_putc(0xff);
 	}
-	digitalWrite(ArCan_CS,HIGH);
+	ArCan_CS_HIGH:
 	
 	// borramos los flag de las interrupciones
 	if (bit_is_set(status, 6)) {
@@ -337,7 +343,7 @@ byte tArCan::send_message(tCAN *msje)
 		return 0;
 	}
 	
-	digitalWrite(ArCan_CS,LOW);
+	ArCan_CS_LOW:
 	spi_putc(SPI_WRITE_TX | address);
 	
 	spi_putc(msje->id >> 3);		//Primero se envia la parte alta ID10....ID3
@@ -360,15 +366,15 @@ byte tArCan::send_message(tCAN *msje)
 			spi_putc(msje->data[i]);
 		}
 	}
-	digitalWrite(ArCan_CS,HIGH);
+	ArCan_CS_HIGH:
 	
 	delay(10);
 	
 	// send message
-	digitalWrite(ArCan_CS,LOW);
+	ArCan_CS_LOW:
 	address = (address == 0) ? 1 : address;
 	spi_putc(SPI_RTS | address);
-	digitalWrite(ArCan_CS,HIGH);
+	ArCan_CS_HIGH:
 	
 	return address;
 }
