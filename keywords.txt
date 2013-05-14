@@ -6,7 +6,7 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-CanBUS	KEYWORD1
+tArCan	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
