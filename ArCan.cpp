@@ -49,7 +49,7 @@ byte tArCan::spi_putc( byte data )
 	
 	// espera hasta que se ha enviado el dato
 	while( !( SPSR & (1<<SPIF) ) )
-	  delay(1);
+	  __asm__("nop\n\t");
 	
 	return SPDR;
 }
