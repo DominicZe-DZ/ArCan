@@ -380,7 +380,7 @@ byte tArCan::send_message(tCAN *msje)
 }
 //***************************************************************************
 //Configura las Mascaras y Filtros
-void tArCan::can_Set_RXB0Filters(uint16_t Mask0, uint16_t filter )
+void tArCan::Set_RXB0Filters(uint16_t Mask0, filter0, filter1)
     {
     // Modo de Configuracion
 	mode(CONFIGURATION);
@@ -388,22 +388,50 @@ void tArCan::can_Set_RXB0Filters(uint16_t Mask0, uint16_t filter )
     // Configuracion de las mascaras de los buffers
     write_register( RXM0SIDH, Mask0 >> 3);
     write_register( RXM0SIDL, Mask0 << 5);
-        
-    write_register( RXM1SIDH, Mask0 >> 3);
-    write_register( RXM1SIDL, Mask0 << 5);
     
-    // Configuracion del filtro 0  
-    
-    write_register( RXF0SIDH, filter >> 3);
-    write_register( RXF0SIDL, filter << 5);
+	// Configuracion del filtro 0  
+    write_register( RXF0SIDH, filter0 >> 3);
+    write_register( RXF0SIDL, filter0 << 5);
+	// Configuracion del filtro 1  
+	write_register( RXF1SIDH, filter1 >> 3);
+	write_register( RXF1SIDL, filter1 << 5);
    
-    // Activamos todos los filtros en la recepcion de mensajes
+    // Activamos los filtros para el buffer RXB0
     write_register(RXB0CTRL, 0x20);
-    write_register(RXB1CTRL, 0x20);
 		
 	// Modo de Configuracion
 	mode(NORMAL);
 }
+
+void tArCan::Set_RXB1Filters(uint16_t Mask1, filter2, filter3, filter4, filter5);
+{
+    // Modo de Configuracion
+	mode(CONFIGURATION);
+    
+    // Configuracion de las mascaras de los buffers
+    write_register( RXM1SIDH, Mask1 >> 3);
+    write_register( RXM1SIDL, Mask1 << 5);
+    
+    // Configuracion del filtro 2  
+    write_register( RXF1SIDH, filter2 >> 3);
+    write_register( RXF1SIDL, filter2 << 5);
+	// Configuracion del filtro 3  
+    write_register( RXF1SIDH, filter3 >> 3);
+    write_register( RXF1SIDL, filter3 << 5);
+	// Configuracion del filtro 4  
+    write_register( RXF1SIDH, filter4 >> 3);
+    write_register( RXF1SIDL, filter4 << 5);
+	// Configuracion del filtro 5  
+    write_register( RXF1SIDH, filter5 >> 3);
+    write_register( RXF1SIDL, filter5 << 5);
+	
+    // Activamos todos los filtros para el buffer RXB1
+    write_register(RXB1CTRL, 0x20);
+	
+	// Modo de Configuracion
+	mode(NORMAL);
+}
+
 //***************************************************************************
 //Imprime por el puerto serie el mensaje CAN
 void tArCan::print_message(tCAN *msje)

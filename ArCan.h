@@ -58,6 +58,8 @@ class tArCan
 	byte send_message(tCAN *msje);
     void print_message(tCAN *msje);
 	void mode(byte mode);
+	void Set_RXB0Filters(uint16_t Mask0, filter0, filter1);
+	void Set_RXB1Filters(uint16_t Mask1, filter2, filter3, filter4, filter5);
 
   // Parte privada
   private:
@@ -69,7 +71,6 @@ class tArCan
 	byte read_register(byte address);
 	void bit_modify(byte address, byte mask, byte data);
 	byte read_status(byte type);
-    void can_Set_RXB0Filters(uint16_t Mask0,uint16_t filter );
 };
 
 #endif
