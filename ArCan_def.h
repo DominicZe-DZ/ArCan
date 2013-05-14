@@ -20,7 +20,7 @@
  *
  ****************************************************************************/
 
- /** Pines de conexión de ArCan con Arduino **/
+ /** Pines de conexi—n de ArCan con Arduino **/
 #define ArCan_CS                10
 #define P_SCK                   13
 #define P_MOSI                  11
@@ -37,6 +37,13 @@
 #define SPI_READ_STATUS         0xA0
 #define SPI_RX_STATUS           0xB0
 #define SPI_BIT_MODIFY          0x05
+
+/** Modos de funcionamiento para el mcp2515 **/
+#define CONFIGURATION			0
+#define NORMAL					1
+#define SLEEP					2
+#define LISTEN					3
+#define LOOPBACK				4
 
 /** Registros internos del mcp2515**/
 #define RXF0SIDH                0x00

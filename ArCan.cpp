@@ -204,7 +204,7 @@ boolean tArCan::begin(uint16_t speed)
 	write_register(RXB1CTRL, (1<<RXM1)|(1<<RXM0));
 	
 	// Cambiamos al modo Normal
-	write_register(CANCTRL, 0);
+	mode(NORMAL);
     
     // Inicializamos el buffer
     buffer_rx_count = 0;
@@ -383,7 +383,7 @@ byte tArCan::send_message(tCAN *msje)
 void tArCan::can_Set_RXB0Filters(uint16_t Mask0, uint16_t filter )
     {
     // Modo de Configuracion
-    write_register(CANCTRL,(1<<REQOP2));
+	mode(CONFIGURATION);
     
     // Configuracion de las mascaras de los buffers
     write_register( RXM0SIDH, Mask0 >> 3);
@@ -400,6 +400,9 @@ void tArCan::can_Set_RXB0Filters(uint16_t Mask0, uint16_t filter )
     // Activamos todos los filtros en la recepcion de mensajes
     write_register(RXB0CTRL, 0x20);
     write_register(RXB1CTRL, 0x20);
+		
+	// Modo de Configuracion
+	mode(NORMAL);
 }
 //***************************************************************************
 //Imprime por el puerto serie el mensaje CAN
@@ -424,19 +427,28 @@ void tArCan::print_message(tCAN *msje)
 }
 
 //***************************************************************************
-//Establece el modo loopback
-void tArCan::mode_loopback(void)
+//Establece el modo
+void tArCan::mode(byte mode)
 {
-	bit_modify(CANCTRL, (1<<REQOP2)|(1<<REQOP1)|(1<<REQOP0), (1<<REQOP1));
+	switch (mode) {
+		case CONFIGURATION:
+			bit_modify(CANCTRL, (1<<REQOP2)|(1<<REQOP1)|(1<<REQOP0), (1<<REQOP2));
+			break;
+		case NORMAL:
+			bit_modify(CANCTRL, (1<<REQOP2)|(1<<REQOP1)|(1<<REQOP0), 0);
+			break;
+		case SLEEP:
+			bit_modify(CANCTRL, (1<<REQOP2)|(1<<REQOP1)|(1<<REQOP0), (1<<REQOP0));
+			break;
+		case LISTEN:
+			bit_modify(CANCTRL, (1<<REQOP2)|(1<<REQOP1)|(1<<REQOP0), (1<<REQOP1)|(1<<REQOP0));
+			break;
+		case LOOPBACK:
+			bit_modify(CANCTRL, (1<<REQOP2)|(1<<REQOP1)|(1<<REQOP0), (1<<REQOP1));
+			break;
+	}
+	
 }
-
-//***************************************************************************
-//Establece el modo normal
-void tArCan::mode_normal(void)
-{
-	bit_modify(CANCTRL, (1<<REQOP2)|(1<<REQOP1)|(1<<REQOP0), 0);
-}
-
 // Private Methods /////////////////////////////////////////////////////////////
 // Functions only available to other functions in this library
 
