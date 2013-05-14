@@ -57,9 +57,9 @@ class tArCan
     byte get_message_to_buffer_rx(void);
 	byte send_message(tCAN *msje);
     void print_message(tCAN *msje);
-	void mode(byte mode);
-	void Set_RXB0Filters(uint16_t Mask0, filter0, filter1);
-	void Set_RXB1Filters(uint16_t Mask1, filter2, filter3, filter4, filter5);
+	void SetMode(byte mode);
+	void SetRXB0Filters(uint16_t Mask0, uint16_t filter0, uint16_t filter1);
+	void SetRXB1Filters(uint16_t Mask1, uint16_t filter2, uint16_t filter3, uint16_t filter4, uint16_t filter5);
 
   // Parte privada
   private:

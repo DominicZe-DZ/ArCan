@@ -204,7 +204,7 @@ boolean tArCan::begin(uint16_t speed)
 	write_register(RXB1CTRL, (1<<RXM1)|(1<<RXM0));
 	
 	// Cambiamos al modo Normal
-	mode(NORMAL);
+	SetMode(NORMAL);
     
     // Inicializamos el buffer
     buffer_rx_count = 0;
@@ -380,10 +380,10 @@ byte tArCan::send_message(tCAN *msje)
 }
 //***************************************************************************
 //Configura las Mascaras y Filtros
-void tArCan::Set_RXB0Filters(uint16_t Mask0, filter0, filter1)
+void tArCan::SetRXB0Filters(uint16_t Mask0, uint16_t filter0, uint16_t filter1)
     {
     // Modo de Configuracion
-	mode(CONFIGURATION);
+	SetMode(CONFIGURATION);
     
     // Configuracion de las mascaras de los buffers
     write_register( RXM0SIDH, Mask0 >> 3);
@@ -400,13 +400,13 @@ void tArCan::Set_RXB0Filters(uint16_t Mask0, filter0, filter1)
     write_register(RXB0CTRL, 0x20);
 		
 	// Modo de Configuracion
-	mode(NORMAL);
+	SetMode(NORMAL);
 }
 
-void tArCan::Set_RXB1Filters(uint16_t Mask1, filter2, filter3, filter4, filter5);
+void tArCan::SetRXB1Filters(uint16_t Mask1, uint16_t filter2, uint16_t filter3, uint16_t filter4, uint16_t filter5)
 {
     // Modo de Configuracion
-	mode(CONFIGURATION);
+	SetMode(CONFIGURATION);
     
     // Configuracion de las mascaras de los buffers
     write_register( RXM1SIDH, Mask1 >> 3);
@@ -429,7 +429,7 @@ void tArCan::Set_RXB1Filters(uint16_t Mask1, filter2, filter3, filter4, filter5)
     write_register(RXB1CTRL, 0x20);
 	
 	// Modo de Configuracion
-	mode(NORMAL);
+	SetMode(NORMAL);
 }
 
 //***************************************************************************
@@ -456,7 +456,7 @@ void tArCan::print_message(tCAN *msje)
 
 //***************************************************************************
 //Establece el modo
-void tArCan::mode(byte mode)
+void tArCan::SetMode(byte mode)
 {
 	switch (mode) {
 		case CONFIGURATION:
