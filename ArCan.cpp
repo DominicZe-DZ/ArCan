@@ -124,6 +124,24 @@ boolean tArCan::begin(void)
 //Inicializa el mcp2515 (Reloj 16MHz)
 boolean tArCan::begin(uint16_t speed)
 {
+	digitalWrite(ArCan_CS, HIGH);
+	digitalWrite(P_MOSI, HIGH);
+	digitalWrite(P_MISO, HIGH);
+	digitalWrite(P_SCK, LOW);
+	
+	pinMode(ArCan_CS,OUTPUT);
+	pinMode(P_SCK,OUTPUT);
+	pinMode(P_MOSI,OUTPUT);
+	pinMode(P_MISO,INPUT);
+	
+	pinMode(ArCan_INT,INPUT);
+	
+	// Activamos y configuramos el SPI como Master a velocidad de 8MHz
+	SPCR = (1<<SPE)|(1<<MSTR) | (0<<SPR1)|(0<<SPR0);
+	// activamos SPI2X (Doble SPI Speed Bit) para alcanzar los 8MHz
+	SPSR = (1<<SPI2X);
+	
+	
 	// Hacemos un reset por soft al mcp2515
 	// Despues del reset entra en modo de configuracion
 	digitalWrite(ArCan_CS,LOW);
