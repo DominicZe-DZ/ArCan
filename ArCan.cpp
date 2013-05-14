@@ -372,7 +372,10 @@ void tArCan::can_Set_RXB0Filters(uint16_t Mask0, uint16_t filter )
     
     write_register( RXF0SIDH, filter >> 3);
     write_register( RXF0SIDL, filter << 5);
-    
+   
+    // Activamos todos los filtros en la recepcion de mensajes
+    write_register(RXB0CTRL, 0x20);
+    write_register(RXB1CTRL, 0x20);
 }
 //***************************************************************************
 //Imprime por el puerto serie el mensaje CAN
