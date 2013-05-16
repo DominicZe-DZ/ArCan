@@ -32,8 +32,10 @@
    Depender‡ del pin CS que usemos, en 
    en l’neas generales, ser‡ el 
    PortB.2 = Pin 10 de arduino */
-#define ArCan_CS_LOW; PORTB &= 0xFB;
-#define ArCan_CS_HIGH; PORTB |= 0x04;
+#define ArCan_CS_LOW	PORTB &= 0xFB
+// El ChipSelect debe tener tiempo m’nimo
+// de 50ns el nop son 62,5ns
+#define ArCan_CS_HIGH	PORTB |= 0x04; __asm__("nop\n\t")
 
 // include this library's description file
 #include "ArCan.h"
@@ -367,9 +369,7 @@ byte tArCan::send_message(tCAN *msje)
 		}
 	}
 	ArCan_CS_HIGH;
-	
-	delay(10);
-	
+
 	// send message
 	ArCan_CS_LOW;
 	address = (address == 0) ? 1 : address;
@@ -461,7 +461,8 @@ void tArCan::SetMode(byte mode)
 	switch (mode) {
 		case CONFIGURATION:
 			bit_modify(CANCTRL, (1<<REQOP2)|(1<<REQOP1)|(1<<REQOP0), (1<<REQOP2));
-			break;
+			delayMicroseconds(4); // Parece que hay que esperar despuŽs de entrar
+			break;				  // en modo de configuraci—n (No viene en DSheet)
 		case NORMAL:
 			bit_modify(CANCTRL, (1<<REQOP2)|(1<<REQOP1)|(1<<REQOP0), 0);
 			break;
