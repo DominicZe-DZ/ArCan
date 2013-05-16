@@ -397,7 +397,7 @@ void tArCan::SetRXB0Filters(uint16_t Mask0, uint16_t filter0, uint16_t filter1)
 	write_register( RXF1SIDL, filter1 << 5);
    
     // Activamos los filtros para el buffer RXB0
-    write_register(RXB0CTRL, 0x20);
+    write_register(RXB0CTRL, (1<<RXM0)|(1<<BUKT));
 		
 	// Modo de Configuracion
 	SetMode(NORMAL);
@@ -413,20 +413,20 @@ void tArCan::SetRXB1Filters(uint16_t Mask1, uint16_t filter2, uint16_t filter3, 
     write_register( RXM1SIDL, Mask1 << 5);
     
     // Configuracion del filtro 2  
-    write_register( RXF1SIDH, filter2 >> 3);
-    write_register( RXF1SIDL, filter2 << 5);
+    write_register( RXF2SIDH, filter2 >> 3);
+    write_register( RXF2SIDL, filter2 << 5);
 	// Configuracion del filtro 3  
-    write_register( RXF1SIDH, filter3 >> 3);
-    write_register( RXF1SIDL, filter3 << 5);
+    write_register( RXF3SIDH, filter3 >> 3);
+    write_register( RXF3SIDL, filter3 << 5);
 	// Configuracion del filtro 4  
-    write_register( RXF1SIDH, filter4 >> 3);
-    write_register( RXF1SIDL, filter4 << 5);
+    write_register( RXF4SIDH, filter4 >> 3);
+    write_register( RXF4SIDL, filter4 << 5);
 	// Configuracion del filtro 5  
-    write_register( RXF1SIDH, filter5 >> 3);
-    write_register( RXF1SIDL, filter5 << 5);
+    write_register( RXF5SIDH, filter5 >> 3);
+    write_register( RXF5SIDL, filter5 << 5);
 	
     // Activamos todos los filtros para el buffer RXB1
-    write_register(RXB1CTRL, 0x20);
+    write_register(RXB1CTRL, (1<<RXM0));
 	
 	// Modo de Configuracion
 	SetMode(NORMAL);
