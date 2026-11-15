@@ -32,7 +32,7 @@ Other boards (Mega, Leonardo, ARM) need the pin and SPI definitions in `ArCan_de
 
 ## Installation
 
-1. Download this repository as a ZIP (**Code → Download ZIP**) or a [release](https://github.com/raulmp1982-design/ArCan/releases).
+1. Download this repository as a ZIP (**Code → Download ZIP**) or a [release](https://github.com/DominicZe-DZ/ArCan/releases).
 2. In the Arduino IDE: **Sketch → Include Library → Add .ZIP Library…**
 3. Open **File → Examples → ArCan → ArCan_Basic**.
 
