@@ -2,7 +2,7 @@
  *
  * Proyecto ArCan
  *
- * Copyright (C) 2008-2009 Raúl Milla Pérez raulmp(at)arcan.es
+ * Copyright (C) 2008-2009 RaÃºl Milla PÃ©rez raulmp(at)arcan.es
  *          http://www.arcan.es
  *
  * This program is free software; you can redistribute it and/or modify
@@ -35,7 +35,7 @@
 // Descripcion del interfaz de la libreria CanBus
 class tArCan
 {
-  // Parte pública
+  // Parte pÃºblica
   public:
 	typedef struct{
           int id;

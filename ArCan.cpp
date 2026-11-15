@@ -2,7 +2,7 @@
  *
  * Proyecto ArCan
  *
- * Copyright (C) 2008-2009 Raúl Milla Pérez raulmp(at)arcan.es
+ * Copyright (C) 2008-2009 RaÃºl Milla PÃ©rez raulmp(at)arcan.es
  *          http://www.arcan.es
  *
  * This program is free software; you can redistribute it and/or modify
@@ -29,11 +29,11 @@
 #endif
 
 /* DigitalWrite es excesivamente lento.
-   Depender‡ del pin CS que usemos, en 
-   en l’neas generales, ser‡ el 
+   Dependerâ€¡ del pin CS que usemos, en 
+   en lâ€™neas generales, serâ€¡ el 
    PortB.2 = Pin 10 de arduino */
 #define ArCan_CS_LOW	PORTB &= 0xFB
-// El ChipSelect debe tener tiempo m’nimo
+// El ChipSelect debe tener tiempo mâ€™nimo
 // de 50ns el nop son 62,5ns
 #define ArCan_CS_HIGH	PORTB |= 0x04; __asm__("nop\n\t")
 
@@ -163,7 +163,7 @@ boolean tArCan::begin(uint16_t speed)
 	ArCan_CS_LOW;
 	spi_putc(SPI_WRITE);
 	spi_putc(CNF3);  // Usaremos una escritura secuencial empezando en la 
-                     // dirección 0x28h(CNF3) 0x29h(CNF2) 0x2A(CNF1)
+                     // direcciÃ³n 0x28h(CNF3) 0x29h(CNF2) 0x2A(CNF1)
                      // Si no se intruduce un valor valido se configura en 125Kbps
 	
     switch(speed){
@@ -235,7 +235,7 @@ boolean tArCan::check_free_buffer(void)
 }
 
 //***************************************************************************
-//Cogemos el mensaje CAN para meterlo en el buffer de recepción
+//Cogemos el mensaje CAN para meterlo en el buffer de recepciÃ³n
 byte tArCan::get_message_to_buffer_rx(void)
 {
 	// Se lee el estado para comprabar en que buffer se encuentra el mensaje
@@ -296,7 +296,7 @@ byte tArCan::get_message_to_buffer_rx(void)
 }
 
 //***************************************************************************
-//Cogemos el mensaje CAN de nuestro buffer de recepción
+//Cogemos el mensaje CAN de nuestro buffer de recepciÃ³n
 byte tArCan::get_message(tCAN *msje){
     msje->id = buffer_rx[buffer_rx_count - 1].id;
     msje->header.length = buffer_rx[buffer_rx_count - 1].header.length;
@@ -461,8 +461,8 @@ void tArCan::SetMode(byte mode)
 	switch (mode) {
 		case CONFIGURATION:
 			bit_modify(CANCTRL, (1<<REQOP2)|(1<<REQOP1)|(1<<REQOP0), (1<<REQOP2));
-			delayMicroseconds(4); // Parece que hay que esperar despuŽs de entrar
-			break;				  // en modo de configuraci—n (No viene en DSheet)
+			delayMicroseconds(4); // Parece que hay que esperar despuÅ½s de entrar
+			break;				  // en modo de configuraciâ€”n (No viene en DSheet)
 		case NORMAL:
 			bit_modify(CANCTRL, (1<<REQOP2)|(1<<REQOP1)|(1<<REQOP0), 0);
 			break;

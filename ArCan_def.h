@@ -2,7 +2,7 @@
  *
  * Proyecto ArCan
  *
- * Copyright (C) 2008-2009 Raúl Milla Pérez raulmp(at)arcan.es
+ * Copyright (C) 2008-2009 RaÃºl Milla PÃ©rez raulmp(at)arcan.es
  *          http://www.arcan.es
  *
  * This program is free software; you can redistribute it and/or modify
@@ -20,7 +20,7 @@
  *
  ****************************************************************************/
 
- /** Pines de conexi—n de ArCan con Arduino **/
+ /** Pines de conexiâ€”n de ArCan con Arduino **/
 #define ArCan_CS                10
 #define P_SCK                   13
 #define P_MOSI                  11
