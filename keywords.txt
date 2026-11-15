@@ -1,5 +1,5 @@
 #######################################
-# Syntax Coloring Map For Test
+# Syntax Coloring Map For ArCan
 #######################################
 
 #######################################
@@ -7,18 +7,31 @@
 #######################################
 
 tArCan	KEYWORD1
+tCAN	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-doSomething	KEYWORD2
-
-#######################################
-# Instances (KEYWORD2)
-#######################################
+begin	KEYWORD2
+check_message	KEYWORD2
+check_free_buffer	KEYWORD2
+get_message	KEYWORD2
+get_message_to_buffer_rx	KEYWORD2
+send_message	KEYWORD2
+print_message	KEYWORD2
+SetMode	KEYWORD2
+SetRXB0Filters	KEYWORD2
+SetRXB1Filters	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 
+CONFIGURATION	LITERAL1
+NORMAL	LITERAL1
+SLEEP	LITERAL1
+LISTEN	LITERAL1
+LOOPBACK	LITERAL1
+ArCan_CS	LITERAL1
+ArCan_INT	LITERAL1
