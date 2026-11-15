@@ -72,6 +72,15 @@ void loop() {
 | `SetRXB0Filters(mask, f0, f1)` | Mask and two filters for receive buffer 0. |
 | `SetRXB1Filters(mask, f2, f3, f4, f5)` | Mask and four filters for receive buffer 1. |
 
+## History and mentions
+
+- **2009, Arduino forum:** [presentation of the ArCan shield](https://forum.arduino.cc/t/shield-arcan-interfaz-arduino-can-bus/32219).
+- **2008/09, III Concurso Universitario de Software Libre** (Spanish university free-software contest): ArCan took part [for the University of Málaga](https://concursosoftwarelibre.org/0809/proyectos.html).
+- **May 2009, Linux Magazine (Spanish edition) nº 49:** article about the contest projects, including ArCan ([announcement](http://www.concursosoftwarelibre.org/0809/planet1c5d.html?%24Path=&%24Version=1&page=14)).
+- **University of Las Palmas de Gran Canaria (ULPGC):** final-year projects built on the ArCan library ([1](https://hdl.handle.net/10553/9860), [2](https://hdl.handle.net/10553/10146), [3](https://hdl.handle.net/10553/25512)).
+- **Other projects:** [MazCAN Project](http://mazcanproject.sourceforge.net/blog/), whose first version was built on Arduino and the ArCan shield.
+- **Videos (2014):** [Proyecto ArCan (Arduino + CAN BUS)](https://www.youtube.com/watch?v=BhLxdrJ59ms) and [an OBD-II car diagnosis system using ArCan](https://www.youtube.com/watch?v=Iw-ZMyqEr5c).
+
 ## License
 
 Software: **MIT License**. You can use, modify and sell it, including commercially. The only condition is to keep the copyright notice, which credits the author. See [LICENSE](LICENSE).
